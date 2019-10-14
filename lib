@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+mkdir -p data/playlists
+
+assert_arg() {
+  local arg="$1"
+  local err="$2"
+
+  if [[ -z "$arg" ]]; then
+    echo "$err"
+    exit 1
+  fi
+}
+
+assert_file() {
+  local file="$1"
+  local err="$2"
+
+  if [[ ! -e "$file" ]]; then
+    echo "$err"
+    exit 1
+  fi
+}
+
+assert_dir() {
+  local dir="$1"
+  local err="$2"
+
+  if [[ ! -d "$dir" ]]; then
+    echo "$err"
+    exit 1
+  fi
+}

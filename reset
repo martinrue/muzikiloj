@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+source "lib"
+
+run() {
+  rm -f data/queue
+  rm -f data/current
+}
+
+run

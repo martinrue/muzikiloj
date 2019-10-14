@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+source "lib"
+
+run() {
+  dir="$1"
+  playlist="data/playlists/${2:-default}"
+
+  assert_arg "$dir" "usage: playlist <directory>"
+  assert_dir "$dir" "playlist: directory not found: $dir"
+
+  find "$dir" -name "*mp3" -type f | grep -v "._" > "$playlist"
+  
+  tracks=$(wc -l < "$playlist" | xargs)
+  echo "$tracks tracks written to $playlist"
+}
+
+run "$1" "$2"

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+source "lib"
+
+run() {
+  playlist="${1}"
+  path="data/playlists/${playlist}"
+  queue="data/queue"
+  current="data/current"
+
+  assert_arg "$playlist" "usage: play <playlist>"
+  assert_file "$path" "play: could not find playlist: $playlist"
+
+  if [[ ! -e "$queue" ]]; then
+    cp "$path" "$queue"
+  fi
+  
+  tracks=$(wc -l < "$queue" | xargs)
+
+  for (( i=1; i<=tracks; i++ ));
+  do
+    next="$(head -n 1 $queue)"
+    echo "$next" > "$current"
+    sed -i '' -e 1d "$queue"
+
+    echo "($i/$tracks): $(basename "$next")"
+    afplay "$next" 
+  done
+}
+
+run "$1"

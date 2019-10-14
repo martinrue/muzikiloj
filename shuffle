@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+source "lib"
+
+run() {
+  playlist="${1}"
+  path="data/playlists/${playlist}"
+
+  assert_arg "$playlist" "usage: shuffle <playlist>"
+  assert_file "$path" "shuffle: playlist not found: $playlist"
+
+  sort -R "$path" > "$path-shuffled"
+  mv "$path-shuffled" "$path"
+
+  tracks=$(wc -l < "$path" | xargs)
+  echo "shuffled $tracks tracks"
+}
+
+run "$1"

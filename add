@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+source "lib"
+
+run() {
+  playlist="${1}"
+  path="data/playlists/${playlist}"
+  current="data/current"
+
+  assert_arg "$playlist" "usage: add <playlist>"
+  assert_file "$current" "add: playlist not started yet"
+
+  cat "$current" >> "$path"
+
+  tracks=$(wc -l < "$path" | xargs)
+  trackname=$(cat "$current")
+
+  echo "$(basename "$trackname") added to $playlist ($tracks total)"
+}
+
+run "$1"
